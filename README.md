@@ -16,10 +16,11 @@ Reading logs was so slow and time consuming, so I developed this app to find all
 ## Features
 - Detects allowed and prohibited applications
 - Specify how much records to check
-- There are some checkboxes that will not work! (they work for previus view and will be deleted)
+- There are some checkboxes that will not work! (they work for previous version and will be deleted soon)
 
 ## What's Next?
 I want to add these features:
 - Cleaning events from dashboard
 - Allowing or preventing an app to and from firewall from dashboard
 - Better view
+- Search through Windows Firewall rules
