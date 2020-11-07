@@ -5,14 +5,14 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:EventParser"
         mc:Ignorable="d"
-        Title="Event Parser" Height="350" Width="525" WindowStartupLocation="CenterScreen">
+        Title="Windows Firewall Logs Processor" Height="350" Width="525" WindowStartupLocation="CenterScreen">
 	<Grid>
 		<Button x:Name="StartButton" Content="Start" Margin="0,0,10,10" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="75" Height="26" Click="StartButton_Click"/>
 		<TextBox x:Name="OutputTextBlock" Margin="10,10,10,138" TextWrapping="Wrap" Text=""/>
 		<TextBox x:Name="MaxRecordsCountTextBox" Margin="0,0,90,10" TextWrapping="Wrap" Text="1000" Height="26" VerticalAlignment="Bottom" HorizontalAlignment="Right" Width="120" VerticalContentAlignment="Center"/>
 		<Label x:Name="ReportLabel" Content="" HorizontalAlignment="Left" Margin="10,0,0,10" Height="26" VerticalAlignment="Bottom"/>
-		<CheckBox x:Name="AllowedsCheckBox" Content="Alloweds" HorizontalAlignment="Right" Margin="0,0,328,14" IsChecked="True" Height="15" VerticalAlignment="Bottom"/>
-		<CheckBox x:Name="DisallowedsCheckBox" Content="Disalloweds" HorizontalAlignment="Right" Margin="0,0,227,14" VerticalAlignment="Bottom" IsChecked="True"/>
+		<CheckBox x:Name="PermittedsCheckBox" Content="Permitted" HorizontalAlignment="Right" Margin="0,0,328,14" IsChecked="True" Height="15" VerticalAlignment="Bottom"/>
+		<CheckBox x:Name="BlockedsCheckBox" Content="Blocked" HorizontalAlignment="Right" Margin="0,0,227,14" VerticalAlignment="Bottom" IsChecked="True"/>
 		<TextBox x:Name="CurrentProcessingTextBlock" Margin="10,0,10,49" TextWrapping="Wrap" Text="" Height="84" VerticalAlignment="Bottom"/>
 		<CheckBox x:Name="LiveLogsCheckBox" Content="Live Logs" HorizontalAlignment="Right" Margin="0,0,408,14" IsChecked="True" Height="15" VerticalAlignment="Bottom"/>
 	</Grid>

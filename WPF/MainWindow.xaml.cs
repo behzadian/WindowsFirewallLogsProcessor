@@ -34,13 +34,13 @@ namespace EventParser
 		BackgroundWorker TheBackgroundWorker;
 		private void StartButton_Click(object sender, RoutedEventArgs e) {
 			workerConfigs configs = new workerConfigs();
-			configs.LogPermittedApps = AllowedsCheckBox.IsChecked.GetValueOrDefault();
-			configs.LogBlockedApp = DisallowedsCheckBox.IsChecked.GetValueOrDefault();
+			configs.LogPermittedApps = PermittedsCheckBox.IsChecked.GetValueOrDefault();
+			configs.LogBlockedApp = BlockedsCheckBox.IsChecked.GetValueOrDefault();
 			configs.LiveLog = LiveLogsCheckBox.IsChecked.GetValueOrDefault();
 			configs.Max = FarayanUtility.TryParseInt(MaxRecordsCountTextBox.Text).GetValueOrDefault().EnsureBetween(100, 100_000);
 			StartButton.IsEnabled = false;
-			AllowedsCheckBox.IsEnabled = false;
-			DisallowedsCheckBox.IsEnabled = false;
+			PermittedsCheckBox.IsEnabled = false;
+			BlockedsCheckBox.IsEnabled = false;
 			LiveLogsCheckBox.IsEnabled = false;
 			TheBackgroundWorker = new BackgroundWorker();
 			TheBackgroundWorker.WorkerReportsProgress = true;
@@ -53,8 +53,8 @@ namespace EventParser
 		private void TheBackgroundWorker_RunWorkerCompleted(object sender, RunWorkerCompletedEventArgs e) {
 			OutputTextBlock.Text += "\nFinished!";
 			StartButton.IsEnabled = true;
-			AllowedsCheckBox.IsEnabled = true;
-			DisallowedsCheckBox.IsEnabled = true;
+			PermittedsCheckBox.IsEnabled = true;
+			BlockedsCheckBox.IsEnabled = true;
 			LiveLogsCheckBox.IsEnabled = true;
 		}
 
@@ -73,7 +73,15 @@ namespace EventParser
 			if (e.UserState is Dictionary<string, List<string>>) {
 				var taskApps = e.UserState as Dictionary<string, List<string>>;
 				string result = "";
+				bool displayPermittedConnections = PermittedsCheckBox.IsChecked ?? false;
+				bool displayBlockedConnections = BlockedsCheckBox.IsChecked ?? false;
 				foreach (var key in taskApps.Keys) {
+					if (key.Contains("permitted") && !displayPermittedConnections) {
+						continue;
+					}
+					if (key.Contains("blocked") && !displayBlockedConnections) {
+						continue;
+					}
 					result += key + "\n";
 					foreach (var app in taskApps[key]) {
 						result += $"\t{app}\n";
