@@ -9,6 +9,9 @@ using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Text.RegularExpressions;
 using System.IO;
+using System.Diagnostics;
+using System.Management;
+using System.ServiceProcess;
 
 namespace EventParser
 {
@@ -148,16 +151,29 @@ namespace EventParser
 								}
 							}
 
-							//if (firewallPermitted)
-							//	app = "(Permitted)\t" + app;
-							//if (firewallBlocked)
-							//	app = "(Blocked)\t" + app;
-							//if (!apps.Contains(app))
-							//	apps.Add(app);
+							string serviceCaption = null;
+
+							if (app.Contains("svchost")) {
+								var pid = Regex.Match(description, "Process ID\\:		(?<pid>\\d+)").Groups["pid"].Value;
+								if (pid.IsUsable()) {
+									var services = ServiceController.GetServices();
+									var relatedServices = new ManagementObjectSearcher($"SELECT * FROM Win32_Service where ProcessId = {pid}").Get();
+									foreach (var item in relatedServices) {
+										serviceCaption = item["Caption"] as string;
+										break;
+									}
+								}
+							}
+
 							if (!taskApps.ContainsKey(firstLine))
 								taskApps.Add(firstLine, new List<string>());
 							if (!taskApps[firstLine].Contains(app))
 								taskApps[firstLine].Add(app);
+							if (serviceCaption.IsUsable()) {
+								string displayable = $"{pid}\t{serviceCaption}";
+								if (!taskApps[firstLine].Contains(displayable))
+									taskApps[firstLine].Add(displayable);
+							}
 
 							Logger.Value.Info($"Parsed: {parsed}. Adding {app}");
 						} else {

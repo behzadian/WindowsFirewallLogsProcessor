@@ -166,5 +166,16 @@ namespace Farayan
 		public static string[] SplitToNonEmptyParts(this string value, string separators) {
 			return value.Or().Split(separators.ToCharArray(), StringSplitOptions.RemoveEmptyEntries);
 		}
+
+		public static T CatchExceptionClass<T>(
+			Func<T> method,
+			Func<Exception, T> defaultProvider = null
+		) where T : class {
+			try {
+				return method.Invoke();
+			} catch (Exception e) {
+				return defaultProvider?.Invoke(e) ?? default;
+			}
+		}
 	}
 }
