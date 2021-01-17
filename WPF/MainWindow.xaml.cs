@@ -153,8 +153,9 @@ namespace EventParser
 
 							string serviceCaption = null;
 
+							string pid = null;
 							if (app.Contains("svchost")) {
-								var pid = Regex.Match(description, "Process ID\\:		(?<pid>\\d+)").Groups["pid"].Value;
+								pid = Regex.Match(description, "Process ID\\:		(?<pid>\\d+)").Groups["pid"].Value;
 								if (pid.IsUsable()) {
 									var services = ServiceController.GetServices();
 									var relatedServices = new ManagementObjectSearcher($"SELECT * FROM Win32_Service where ProcessId = {pid}").Get();
